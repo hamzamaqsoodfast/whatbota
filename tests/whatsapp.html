@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/selenium-webdriver/dist/selenium-webdriver.js"></script>
+    <script src="test.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+
+        <!-- Other head elements -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+ 
+
+    <title>My Page</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #e0e0e0, #f5f5f5);
+            margin: 0;
+            padding: 0;
+        }
+        
+        section {
+            background-color: #fff;
+            margin: 50px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+        }
+        
+        .content-switcher {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #009A88;
+            padding: 10px;
+        }
+        
+        .content-switcher button {
+            border: none;
+            background: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .content-switcher .active {
+            border-bottom: 2px solid white;
+            text-decoration: none;
+        }
+        
+        .pro-upgrade-section {
+            background-color: #f5deb3;
+            margin-top: 4px;
+            padding: 4px;
+        }
+        
+        .pro-upgrade-section h2 {
+            font-weight: bold;
+            font-size: 20px;
+            text-align:center;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .whatsapp-numbers-section {
+            margin-top: 10px;
+        }
+        
+        .whatsapp-numbers-section label {
+            font-weight: bold;
+            display: block;
+        }
+        
+        .whatsapp-numbers-section input[type="text"] {
+            border: 1px solid #ddd;
+            padding: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="asad">Selenium Razor Page</h1>
+    <button id="openButton" onclick="openWhatsApp()">Open WhatsApp</button>
+    <section>
+        <div class="content-switcher">
+            <button class="active" onclick="switchContent(0)">Send Messages</button>
+            <button onclick="switchContent(1)">Send Messages Pro</button>
+            <button onclick="switchContent(2)">AI Message</button>
+            <button onclick="switchContent(3)">Validate Numbers</button>
+        </div>
+        <div id="content">
+
+           
+            <div class="content-section active">
+                <div class="pro-upgrade-section">
+                    <h2>Save time with ultimate WA automation tool!</h2>
+                </div>
+                <div class="whatsapp-numbers-section">
+                    <label for="whatsapp-numbers">Whatsapp Numbers:</label>
+                    <input type="text" id="whatsapp-numbers" name="firstwanum" placeholder="+923117334180, +923417412465">
+                    <label for="whatsapp-numbers" style="font-weight: normal; font-size: 12px;">Country code in front, separate using comma, like: +8613135587131,+8619197646821</label>
+                       
+                            <label id="result-label"></label>
+                  
+                        <label id="result-labe4l">@Model.error1</label>
+                    
+
+
+                  
+
+                    <div>
+                        <label for="message-text">Message Text:</label>
+                        <textarea id="message-text" style="background-color: #009A88;width:100%; height:100px; border: 1px solid #37B54A; border-radius: 5px;"></textarea>
+
+                    </div>
+                    <div>
+                        <label for="select-template" margin-right:5px; style="width: 48%;">Select Template:</label>
+                        <select id="select-template" style="width: 48%;">
+                            <option value="option1">Select Message Template</option>
+                            <option value="option2">Random Text 2</option>
+                            <option value="option3">Random Text 3</option>
+                            <option value="option4">Random Text 4</option>
+                            <option value="option5">Random Text 5</option>
+                        </select>
+
+                        <button onclick="saveTemplate()" class="custom-button">Save As A Template</button>
+                    </div>
+                    <div>
+                        <div style="display: flex; align-items: center; margin-bottom: 5px; margin-top:15px;">
+                            <span style="margin: 0 10px; font-weight: bold;">Sending Interval</span>
+                            <button onclick="decrementTime('min')" style="background-color: #009A88; border: none; color: white; cursor: pointer;">-</button>
+                            <input type="text" id="min-time-limit" placeholder="Min Time" style="background-color: #009A88; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                            <button onclick="incrementTime('min')" style="background-color: #009A88; border: none; color: white; cursor: pointer;">+</button>
+
+                            <button onclick="decrementTime('max')" style="background-color: #009A88; margin-left: 5px; border: none; color: white; cursor: pointer;">-</button>
+                            <input type="text" id="max-time-limit" placeholder="Max Time" style="background-color: #009A88; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                            <button onclick="incrementTime('max')" style="background-color: #009A88; border: none; color: white; cursor: pointer;">+</button>
+                            <script>
+                                window.openWhatsApp = async function() {
+                                  const { Builder } = require("selenium-webdriver");
+                                  require("chromedriver");
+                                  
+                                  const driver = await new Builder().forBrowser("chrome").build();
+                                  await driver.get("https://web.whatsapp.com");
+                                  setInterval(function() {
+                                    driver.quit();
+                                  }, 1000);
+                                }
+                                </script>
+                                <button id="validate-button1"  onclick="openWhatsApp()" style="background-color: #009A88; margin-left: 205px; border: 1px solid #37B54A; border-radius: 5px; color: black; cursor: pointer; padding: 5px 35px; font-size: 16px;">Send</button>
+                         
+                        </div>
+                        <div style="margin-top: 10px; font-size: 12px; text-align: center;">
+                            Messages will be sent randomly from this interval.
+                        </div>
+                    </div>
+                </div>
+         
+
+            </div>
+          
+
+            <div class="content-section">
+                <div class="pro-upgrade-section">
+                    <h2>This is pro feature buy Pro Account now!</h2>
+                </div>
+                <div class="whatsapp-numbers-section">
+                    <label for="whatsapp-numbers">Whatsapp Numbers:</label>
+                    <input type="text" id="whatsapp-numbers" placeholder="+923117334180, +923417412465">
+                    <label for="whatsapp-numbers" style="font-weight: normal; font-size: 12px;">Country code in front, separate using comma, like: +8613135587131,+8619197646821</label>
+                    <label for="whatsapp-numbers">Send to Group members 1 by 1</label>
+                    <select id="select-template" style="width: 100%;">
+                        <option value="option1">Select Joined Groups</option>
+                        <option value="option2">Random Text 2</option>
+                        <option value="option3">Random Text 3</option>
+                        <option value="option4">Random Text 4</option>
+                        <option value="option5">Random Text 5</option>
+                    </select>                    <div class="whatsapp-numbers-section">
+                        <label for="whatsapp-numbers">WhatsApp Number's Excel</label>
+                        <div class="button-container">
+                            <a onclick="downloadExcelTemplate()" download class="whatsapp-button">Download Excel Template</a>
+                            <label for="excel-upload" class="whatsapp-button">Upload Excel<input type="file" id="excel-upload" accept=".xlsx, .xls" onchange="handleFileUpload(event)" style="display: none;"></label>
+                        </div>
+
+                        <div id="uploaded-file-section">
+                            <span id="uploaded-file"></span>
+                            <button id="delete-file" onclick="deleteUploadedFile()" style="display: none;"><i class="fas fa-trash"></i></button>
+                            <br>
+                            <label for="error-label" id="error-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="round-button red-button">First Name</button>
+                        <button class="round-button blue-button">Last Name</button>
+                        <button class="round-button green-button">Email</button>
+                        <button class="round-button orange-button">Roll Number</button>
+                        <button class="round-button purple-button">Status</button>
+                        <button class="round-button yellow-button">Fees</button>
+                        <button class="round-button teal-button">Due Date</button>
+                        <button class="round-button pink-button">Expiry</button>
+                    </div>
+                 
+                    <div class="button-group">
+                        <button class="round-button gray-button">Last Day</button>
+                        <button class="round-button brown-button">Keyword</button>
+                    </div>
+                    <div>
+                        <label for="message-text">Message Text:</label>
+                        <textarea id="message-text1" style="background-color: lightgreen;width:100%; height:100px; border: 1px solid #37B54A; border-radius: 5px;"></textarea>
+                    </div>
+
+
+                    <div>
+                        <label for="select-template" margin-right:5px; style="width: 48%;">Select Template:</label>
+                        <select id="select-template" style="width: 48%;">
+                            <option value="option1">Select Message Template</option>
+                            <option value="option2">Random Text 2</option>
+                            <option value="option3">Random Text 3</option>
+                            <option value="option4">Random Text 4</option>
+                            <option value="option5">Random Text 5</option>
+                        </select>
+
+                        <button onclick="saveTemplate()" class="custom-button">Save As A Template</button>
+                    </div>
+                    <div>
+                        <div style="display: flex; align-items: center; margin-bottom: 5px; margin-top:15px;">
+                            <span style="margin: 0 10px; font-weight: bold;">Sending Interval</span>
+                            <button onclick="decrementTime('min')" style="background-color: lightgreen; border: none; color: white; cursor: pointer;">-</button>
+                            <input type="text" id="min-time-limit" placeholder="Min Time" style="background-color: lightgreen; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                            <button onclick="incrementTime('min')" style="background-color: lightgreen; border: none; color: white; cursor: pointer;">+</button>
+
+                            <button onclick="decrementTime('max')" style="background-color: lightgreen; margin-left: 5px; border: none; color: white; cursor: pointer;">-</button>
+                            <input type="text" id="max-time-limit" placeholder="Max Time" style="background-color: lightgreen; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                            <button onclick="incrementTime('max')" style="background-color: lightgreen; border: none; color: white; cursor: pointer;">+</button>
+
+                            <button style="background-color: lightgreen; margin-left: 205px; border: 1px solid #37B54A; border-radius: 5px; color: black; cursor: pointer; padding: 5px 35px; font-size: 16px;">Send</button>
+
+                        </div>
+                        <div style="margin-top: 10px; font-size: 12px; text-align: center;">
+                            Messages will be sent randomly from this interval.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content-section">
+                <div class="pro-upgrade-section">
+                    <h2>Unleash Creativity with AI-Generated Message Templates</h2>
+                    <div class="upgrade-content">
+                        <textarea id="message-input" placeholder="Explain briefly about your message"></textarea>
+                        <div class="emoji-buttons">
+                            <button class="emoji-button" data-emoji="😄">😄</button>
+                            <button class="emoji-button" data-emoji="😂">😂</button>
+                            <button class="emoji-button" data-emoji="😊">😊</button>
+                            <button class="emoji-button" data-emoji="1">&#x1F947;</button>
+                            <button class="emoji-button" data-emoji="2">&#x1F948;</button>
+                            <button class="emoji-button" data-emoji="3">&#x1F949;</button>
+                            <button class="emoji-button" data-emoji="4">&#x1F94A;</button>
+                            <button class="emoji-button" data-emoji="5">&#x1F94B;</button>
+                            <button class="emoji-button" data-emoji="6">&#x1F94C;</button>
+                            <button class="emoji-button" data-emoji="7">&#x1F94D;</button>
+                            <button class="emoji-button" data-emoji="8">&#x1F94E;</button>
+                            <button class="emoji-button" data-emoji="9">&#x1F94F;</button>
+                            <button class="emoji-button" data-emoji="10">&#x1F3AE;</button>
+                            <button class="emoji-button" data-emoji="🔟">🔟</button>
+                            <!-- Add more emoji buttons as needed -->
+                        </div>
+                        <div class="language-selection">
+                            <label for="language-select">Select preferred output language:</label>
+                            <select id="language-select">
+                                <option>Choose your Language</option>
+                                <option value="af">Afrikaans</option>
+                                <option value="sq">Albanian - shqip</option>
+                                <option value="am">Amharic - አማርኛ</option>
+                                <option value="ar">Arabic - العربية</option>
+                                <option value="an">Aragonese - aragonés</option>
+                                <option value="hy">Armenian - հայերեն</option>
+                                <option value="ast">Asturian - asturianu</option>
+                                <option value="az">Azerbaijani - azərbaycan dili</option>
+                                <option value="eu">Basque - euskara</option>
+                                <option value="be">Belarusian - беларуская</option>
+                                <option value="bn">Bengali - বাংলা</option>
+                                <option value="bs">Bosnian - bosanski</option>
+                                <option value="br">Breton - brezhoneg</option>
+                                <option value="bg">Bulgarian - български</option>
+                                <option value="ca">Catalan - català</option>
+                                <option value="ckb">Central Kurdish - کوردی (دەستنوسی عەرەبی)</option>
+                                <option value="zh">Chinese - 中文</option>
+                                <option value="zh-HK">Chinese (Hong Kong) - 中文（香港）</option>
+                                <option value="zh-CN">Chinese (Simplified) - 中文（简体）</option>
+                                <option value="zh-TW">Chinese (Traditional) - 中文（繁體）</option>
+                                <option value="co">Corsican</option>
+                                <option value="hr">Croatian - hrvatski</option>
+                                <option value="cs">Czech - čeština</option>
+                                <option value="da">Danish - dansk</option>
+                                <option value="nl">Dutch - Nederlands</option>
+                                <option value="en">English</option>
+                                <option value="en-AU">English (Australia)</option>
+                                <option value="en-CA">English (Canada)</option>
+                                <option value="en-IN">English (India)</option>
+                                <option value="en-NZ">English (New Zealand)</option>
+                                <option value="en-ZA">English (South Africa)</option>
+                                <option value="en-GB">English (United Kingdom)</option>
+                                <option value="en-US">English (United States)</option>
+                                <option value="eo">Esperanto - esperanto</option>
+                                <option value="et">Estonian - eesti</option>
+                                <option value="fo">Faroese - føroyskt</option>
+                                <option value="fil">Filipino</option>
+                                <option value="fi">Finnish - suomi</option>
+                                <option value="fr">French - français</option>
+                                <option value="fr-CA">French (Canada) - français (Canada)</option>
+                                <option value="fr-FR">French (France) - français (France)</option>
+                                <option value="fr-CH">French (Switzerland) - français (Suisse)</option>
+                                <option value="gl">Galician - galego</option>
+                                <option value="ka">Georgian - ქართული</option>
+                                <option value="de">German - Deutsch</option>
+                                <option value="de-AT">German (Austria) - Deutsch (Österreich)</option>
+                                <option value="de-DE">German (Germany) - Deutsch (Deutschland)</option>
+                                <option value="de-LI">German (Liechtenstein) - Deutsch (Liechtenstein)</option>
+                                <option value="de-CH">German (Switzerland) - Deutsch (Schweiz)</option>
+                                <option value="el">Greek - Ελληνικά</option>
+                                <option value="gn">Guarani</option>
+                                <option value="gu">Gujarati - ગુજરાતી</option>
+                                <option value="ha">Hausa</option>
+                                <option value="haw">Hawaiian - ʻŌlelo Hawaiʻi</option>
+                                <option value="he">Hebrew - עברית</option>
+                                <option value="hi">Hindi - हिन्दी</option>
+                                <option value="hu">Hungarian - magyar</option>
+                                <option value="is">Icelandic - íslenska</option>
+                                <option value="id">Indonesian - Indonesia</option>
+                                <option value="ia">Interlingua</option>
+                                <option value="ga">Irish - Gaeilge</option>
+                                <option value="it">Italian - italiano</option>
+                                <option value="it-IT">Italian (Italy) - italiano (Italia)</option>
+                                <option value="it-CH">Italian (Switzerland) - italiano (Svizzera)</option>
+                                <option value="ja">Japanese - 日本語</option>
+                                <option value="kn">Kannada - ಕನ್ನಡ</option>
+                                <option value="kk">Kazakh - қазақ тілі</option>
+                                <option value="km">Khmer - ខ្មែរ</option>
+                                <option value="ko">Korean - 한국어</option>
+                                <option value="ku">Kurdish - Kurdî</option>
+                                <option value="ky">Kyrgyz - кыргызча</option>
+                                <option value="lo">Lao - ລາວ</option>
+                                <option value="la">Latin</option>
+                                <option value="lv">Latvian - latviešu</option>
+                                <option value="ln">Lingala - lingála</option>
+                                <option value="lt">Lithuanian - lietuvių</option>
+                                <option value="mk">Macedonian - македонски</option>
+                                <option value="ms">Malay - Bahasa Melayu</option>
+                                <option value="ml">Malayalam - മലയാളം</option>
+                                <option value="mt">Maltese - Malti</option>
+                                <option value="mr">Marathi - मराठी</option>
+                                <option value="mn">Mongolian - монгол</option>
+                                <option value="ne">Nepali - नेपाली</option>
+                                <option value="no">Norwegian - norsk</option>
+                                <option value="nb">Norwegian Bokmål - norsk bokmål</option>
+                                <option value="nn">Norwegian Nynorsk - nynorsk</option>
+                                <option value="oc">Occitan</option>
+                                <option value="or">Oriya - ଓଡ଼ିଆ</option>
+                                <option value="om">Oromo - Oromoo</option>
+                                <option value="ps">Pashto - پښتو</option>
+                                <option value="fa">Persian - فارسی</option>
+                                <option value="pl">Polish - polski</option>
+                                <option value="pt">Portuguese - português</option>
+                                <option value="pt-BR">Portuguese (Brazil) - português (Brasil)</option>
+                                <option value="pt-PT">Portuguese (Portugal) - português (Portugal)</option>
+                                <option value="pa">Punjabi - ਪੰਜਾਬੀ</option>
+                                <option value="qu">Quechua</option>
+                                <option value="ro">Romanian - română</option>
+                                <option value="mo">Romanian (Moldova) - română (Moldova)</option>
+                                <option value="rm">Romansh - rumantsch</option>
+                                <option value="ru">Russian - русский</option>
+                                <option value="gd">Scottish Gaelic</option>
+                                <option value="sr">Serbian - српски</option>
+                                <option value="sh">Serbo-Croatian - Srpskohrvatski</option>
+                                <option value="sn">Shona - chiShona</option>
+                                <option value="sd">Sindhi</option>
+                                <option value="si">Sinhala - සිංහල</option>
+                                <option value="sk">Slovak - slovenčina</option>
+                                <option value="sl">Slovenian - slovenščina</option>
+                                <option value="so">Somali - Soomaali</option>
+                                <option value="st">Southern Sotho</option>
+                                <option value="es">Spanish - español</option>
+                                <option value="es-AR">Spanish (Argentina) - español (Argentina)</option>
+                                <option value="es-419">Spanish (Latin America) - español (Latinoamérica)</option>
+                                <option value="es-MX">Spanish (Mexico) - español (México)</option>
+                                <option value="es-ES">Spanish (Spain) - español (España)</option>
+                                <option value="es-US">Spanish (United States) - español (Estados Unidos)</option>
+                                <option value="su">Sundanese</option>
+                                <option value="sw">Swahili - Kiswahili</option>
+                                <option value="sv">Swedish - svenska</option>
+                                <option value="tg">Tajik - тоҷикӣ</option>
+                                <option value="ta">Tamil - தமிழ்</option>
+                                <option value="tt">Tatar</option>
+                                <option value="te">Telugu - తెలుగు</option>
+                                <option value="th">Thai - ไทย</option>
+                                <option value="ti">Tigrinya - ትግርኛ</option>
+                                <option value="to">Tongan - lea fakatonga</option>
+                                <option value="tr">Turkish - Türkçe</option>
+                                <option value="tk">Turkmen</option>
+                                <option value="tw">Twi</option>
+                                <option value="uk">Ukrainian - українська</option>
+                                <option value="ur">Urdu - اردو</option>
+                                <option value="ug">Uyghur</option>
+                                <option value="uz">Uzbek - o‘zbek</option>
+                                <option value="vi">Vietnamese - Tiếng Việt</option>
+                                <option value="wa">Walloon - wa</option>
+                                <option value="cy">Welsh - Cymraeg</option>
+                                <option value="fy">Western Frisian</option>
+                                <option value="xh">Xhosa</option>
+                                <option value="yi">Yiddish</option>
+                                <option value="yo">Yoruba - Èdè Yorùbá</option>
+                                <option value="zu">Zulu - isiZulu</option>
+                                <!-- Add more language options if needed -->
+                            </select>
+                        </div>
+                        <div class="button-container">
+                            <button id="save-template-button" class="custom-button">Generate</button>
+                        </div>
+                        <textarea id="message-output" placeholder="Your AI Generated Message"></textarea>
+                        <button id="save-template-button"  class="custom-button" style="margin-top: 10px;">Add New Template</button>
+
+                    </div>
+                </div>
+            </div>
+                                          
+
+            <div class="content-section">
+
+                <div class="pro-upgrade-section">
+
+                <h2>Separate Whatsapp Numbers from Contacts List</h2>
+                </div>
+                <div class="button-container">
+                <label for="excel-upload" class="whatsapp-button" id="wa1">Import Numbers From Excel<input type="file" id="excel-upload-excel" accept=".xlsx, .xls" onchange="handleExcelFileUpload(event)" style="display: none; width: 45%;"></label>
+
+                <label for="text-upload" class="whatsapp-button" id="wa2">Import Numbers From Text File<input type="file" id="text-upload" accept=".txt" onchange="handleTextFileUpload(event)" style="display: none; width: 45%;"></label>
+
+                </div>
+
+                <div id="uploaded-file-section">
+                    <span id="uploaded-file"></span>
+                    <button id="delete-file" onclick="deleteUploadedFile()" style="display: none;"><i class="fas fa-trash"></i></button>
+                    <br>
+                    <label for="error-label" id="error-label"></label>
+                </div>
+            <div class="number-generator-section">
+                <label for="number-generator">Number Generator:</label>
+                <div class="row">
+                    <div class="col-md-4" style="width:25%;">
+                        <select id="country-code" class="form-control" onchange="updateCountryFlag()"></select>
+                    </div>
+                    <div class="col-md-4" style="width:10%;">
+                        <img id="country-flag" src="" alt="">
+                    </div>
+                    <div class="col-md-4" style="width:45%;">
+                        <input type="text" id="number-field" class="form-control" placeholder="Enter number without country code">
+                    </div>
+                    <div class="col-md-4" style="width:20%;">
+                        <input type="number" id="count-field" class="form-control" placeholder="Count">
+                    </div>
+                </div>
+                <button id="generate-button" class="btn btn-primary">Generate</button>
+            </div>
+
+                <div class="row whatsapp-numbers-section">
+                    <div class="col-md-6">
+                        <label for="whatsapp-numbers">WhatsApp Numbers:</label>
+                    <textarea id="input-text" name="input-text" ; rows="10" class="form-control"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="output-text">Output:</label>
+                    
+                        <textarea id="output-text" rows="10" class="form-control" readonly></textarea>
+                        <button class="btn btn-primary copy-button">Copy</button>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 text-center">
+                        <button  onclick="openWhatsApp()" id="validate-button" class="btn btn-success validate-button" style="margin-top: 10px;">Validate Numbers</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 text-center" style="margin-top: 10px;">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-success" style="width: 50%;">
+                                On Whatsapp
+                            </div>
+                            <div class="progress-bar progress-bar-striped bg-danger" style="width: 50%;">
+                                Not on Whatsapp
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+         
+         
+        </div>
+        <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+    </section>
+
+    <style>
+        #wa1{
+            width:100%;
+        }
+        #message-output{
+            margin-top:10px;
+            height:100px;
+
+        }
+
+        .copy-button {
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+      #generate-button
+      {
+          justify-content:center;
+      }
+
+        .upgrade-content {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#message-input {
+    border: 1px solid #ddd;
+    padding: 5px;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.language-selection {
+    margin-bottom: 10px;
+}
+
+#language-select {
+    width: 100%;
+    padding: 5px;
+}
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        #generate-button {
+            align-self: center;
+        }
+
+       
+
+        #message-output {
+            margin-top: 10px;
+            height: 100px;
+        }
+
+        #save-template-button {
+            margin-top: 10px;
+        }
+
+
+        .number-generator-section {
+            margin-top: 10px;
+        }
+
+            .number-generator-section label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .number-generator-section .row {
+                align-items: center;
+            }
+
+            .number-generator-section .col-md-4 {
+                margin-bottom: 10px;
+            }
+
+            .number-generator-section select,
+            .number-generator-section input[type="text"],
+            .number-generator-section input[type="number"] {
+                width: 100%;
+            }
+
+            .number-generator-section img#country-flag {
+                width: 45px;
+                height: 25px;
+            }
+#generate-button,
+#save-template-button {
+    width: 50%;
+    padding: 8px 24px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    align-content:center;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+#generate-button:hover,
+#save-template-button:hover {
+    background-color: #45a049;
+}
+
+        #save-template-button {
+            margin: 0 auto;
+            margin-bottom: 5px;
+        }
+
+          
+
+#generate-button:active,
+#save-template-button:active {
+    background-color: #3e8e41;
+}
+
+#output-box {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Add animation effects */
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.pro-upgrade-section {
+    animation: slideInFromLeft 1s ease;
+}
+
+.upgrade-content {
+    animation: slideInFromBottom 1s ease;
+}
+
+        .round-button {
+            border: none;
+            border-radius: 10px;
+            padding: 0;
+            width: 80px;
+            height: 30px;
+            font-size: 12px;
+            text-align: center;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+
+        .red-button {
+            background-color: red;
+            color: white;
+        }
+
+        .blue-button {
+            background-color: blue;
+            color: white;
+        }
+
+        .green-button {
+            background-color: green;
+            color: white;
+        }
+
+        .orange-button {
+            background-color: orange;
+            color: white;
+        }
+
+        .generate-button {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .purple-button {
+            background-color: purple;
+            color: white;
+        }
+
+        .yellow-button {
+            background-color: yellow;
+            color: black;
+        }
+
+        .teal-button {
+            background-color: teal;
+            color: white;
+        }
+
+        .pink-button {
+            background-color: pink;
+            color: white;
+        }
+
+        .gray-button {
+            background-color: gray;
+            color: white;
+        }
+
+        .brown-button {
+            background-color: brown;
+            color: white;
+        }
+
+        #delete-file {
+            background-color: transparent;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+        }
+
+        .whatsapp-button {
+            display: inline-block;
+            width: 50%;
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            color: #4CAF50;
+            background-color: transparent;
+            border: 2px solid #4CAF50;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+            .whatsapp-button:hover {
+                background-color: #4CAF50;
+                color: #fff;
+            }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .whatsapp-numbers-section {
+            text-align: left;
+        }
+
+        #uploaded-file-section {
+            margin-top: 20px;
+        }
+
+        #error-label {
+            color: red;
+            margin-top: 10px;
+        }
+
+        #select-template {
+            width: 48%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #333;
+        }
+
+            #select-template option {
+                padding: 8px;
+            }
+
+
+        .custom-button {
+            width: 50%;
+            padding: 8px 24px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+            .custom-button:hover {
+                background-color: #45a049;
+            }
+
+            .custom-button:active {
+                background-color: #3e8e41;
+            }
+
+     
+        .button-group button:hover {
+            background-color: lightblue;
+            color: white;
+        }
+
+        #result-label {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+</style>
+
+    <script>
+
+function openWhatsApp() {
+      fetch("http://localhost:3000/open-whatsapp")
+        .then(response => response.text())
+        .then(message => {
+          console.log(message);
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+    }
+
+        // Add this function before the existing JavaScript code
+        // Add this code after the existing JavaScript code
+        // Call the function to populate country codes and flags
+        populateCountryCodes();
+        function populateCountryCodes() {
+            const whatsappNumbersTextArea = document.getElementById('whatsapp-numbers');
+            whatsappNumbersTextArea.innerText = "Asad ali";
+
+            const url = 'https://restcountries.com/v2/all';
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const countryCodeSelect = document.getElementById('country-code');
+                    countryCodeSelect.innerHTML = ''; // Clear existing options
+                    data.forEach(country => {
+                        const option = document.createElement('option');
+                        option.value = country.callingCodes[0];
+
+                        const flagUrl = country.flags.png;
+                        const flagImage = document.createElement('img');
+                        flagImage.src = flagUrl;
+                        flagImage.style.width = '20px';
+                        flagImage.style.marginRight = '5px';
+
+                        option.appendChild(flagImage);
+                        option.appendChild(document.createTextNode(`+${country.callingCodes[0]} ${country.name}`));
+
+                        countryCodeSelect.appendChild(option);
+                    });
+
+                    // Trigger the event to update the initial country flag
+                    countryCodeSelect.dispatchEvent(new Event('change'));
+                })
+                .catch(error => console.log('Error:', error));
+        }
+
+        function updateCountryFlag() {
+            const countryCodeSelect = document.getElementById('country-code');
+            const countryFlagImg = document.getElementById('country-flag');
+            const selectedOption = countryCodeSelect.options[countryCodeSelect.selectedIndex];
+            const flagUrl = selectedOption.getElementsByTagName('img')[0].src;
+            countryFlagImg.src = flagUrl;
+        }
+
+        window.addEventListener('DOMContentLoaded', populateCountryCodes);
+
+        document.getElementById('generate-button').addEventListener('click', function () {
+
+
+            const countryCode = document.getElementById('country-code').value;
+            const numberField = document.getElementById('number-field').value;
+            const countField = document.getElementById('count-field').value;
+            const whatsappNumbersTextArea = document.getElementById('input-text');
+
+            // Clear existing WhatsApp numbers
+            whatsappNumbersTextArea.value = '';
+
+            // Generate and append new WhatsApp numbers
+            let currentNumber = Number(numberField);
+            for (let i = 0; i < countField; i++) {
+                const generatedNumber = `+${countryCode}${currentNumber}`;
+                whatsappNumbersTextArea.value += generatedNumber + '\n';
+                currentNumber++;
+            }
+        });
+
+    
+
+        // Get the text area element
+
+        //Excel template download
+        function downloadExcelTemplate() {
+            window.location.href = "https://docs.google.com/spreadsheets/d/1QL_17-O0VQmt8Q5V8ouPqSQwmKojaDjm/export?format=xlsx";
+        }
+        function handleExcelFileUpload(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var data = new Uint8Array(e.target.result);
+                var workbook = XLSX.read(data, { type: 'array' });
+                var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                var textArea = document.getElementById('input-text');
+                textArea.value = jsonData.join('\n');
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function handleTextFileUpload(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var text = e.target.result;
+                var textArea = document.getElementById('input-text');
+                textArea.value = text;
+            };
+
+            reader.readAsText(file);
+        }
+        function deleteUploadedFile() {
+            const fileInput = document.getElementById("excel-upload");
+            const uploadedFile = document.getElementById("uploaded-file");
+            const deleteButton = document.getElementById("delete-file");
+
+            fileInput.value = "";
+            uploadedFile.textContent = "";
+            deleteButton.style.display = "none";
+        }
+
+    const buttons = document.querySelectorAll('.content-switcher button');
+const contentSections = document.querySelectorAll('.content-section');
+
+var minTime = 10;
+var maxTime = 20;
+
+updateMinTime();
+updateMaxTime();
+
+function updateMinTime() {
+  var minInput = document.getElementById("min-time-limit");
+  minInput.value = minTime;
+}
+
+function updateMaxTime() {
+  var maxInput = document.getElementById("max-time-limit");
+  maxInput.value = maxTime;
+}
+
+function decrementTime(type) {
+  if (type === 'min') {
+    if (minTime > 10) {
+      minTime--;
+      updateMinTime();
+    }
+  } else if (type === 'max') {
+    if (maxTime > minTime + 1) {
+      maxTime--;
+      updateMaxTime();
+    }
+  }
+}
+
+function incrementTime(type) {
+  if (type === 'min') {
+    if (minTime < maxTime - 1) {
+      minTime++;
+      updateMinTime();
+    }
+  } else if (type === 'max') {
+  
+      maxTime++;
+      updateMaxTime();
+  
+  }
+}
+
+function switchContent(index) {
+  buttons.forEach(button => button.classList.remove('active'));
+  buttons[index].classList.add('active');
+
+  contentSections.forEach(section => section.classList.remove('active'));
+  contentSections[index].classList.add('active');
+}
+//Check numbers
+        function checkNumbers() {
+            document.getElementById("myForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent form submission
+                //var input = document.getElementById("whatsapp-numbers").value;
+                //var numbers = input.split(",");
+
+                //var allValid = true;
+                //var errorMessage = "Numbers are in correct format";
+
+                //for (var i = 0; i < numbers.length; i++) {
+                //    var number = numbers[i].trim();
+
+                //    if (!number.startsWith("+") || !/^\+\d+$/.test(number)) {
+                //        allValid = false;
+                //        errorMessage = "Numbers are not in correct format";
+                //        break;
+                //    }
+                //}
+
+                //var resultLabel = document.getElementById("result-label");
+                //resultLabel.textContent = errorMessage;
+                //resultLabel.classList.remove("green", "red");
+                //resultLabel.classList.add(allValid ? "green" : "red");
+                document.getElementById("myForm").submit();
+            });
+          
+        }
+        const button = document.getElementById("save-template-button");
+        const driver = new WebDriver();
+
+        button.addEventListener("click", () => {
+            driver.navigate().to("https://web.whatsapp.com");
+        });
+    </script>
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/path/to/signalr.js"></script>
+        <script>
+            $(document).ready(function () {
+                var connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+
+                connection.on("ReceiveUpdate", function (phoneNumber) {
+                    // Update the textarea with the received phoneNumber
+                    var outputTextArea = document.getElementById("output-text");
+                    outputTextArea.value += phoneNumber + "\n";
+                });
+
+                connection.start().then(function () {
+                    // Connection to SignalR hub is established
+                }).catch(function (err) {
+                    console.error(err.toString());
+                });
+            });
+        </script>
+    }
+</body>
+</html>
