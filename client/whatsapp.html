@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/xlsx-style/dist/xlsx.full.min.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/selenium-webdriver/dist/selenium-webdriver.js"></script>
-    <script src="test.js"></script>
+    <script src="script.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
         <!-- Other head elements -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -14,17 +19,20 @@
     <title>My Page</title>
     <style>
         body {
-            background: linear-gradient(to bottom, #e0e0e0, #f5f5f5);
+           background: linear-gradient(to bottom, #08203e, #557c93);
             margin: 0;
             padding: 0;
+            background-color: #222;
+
         }
         
         section {
             background-color: #fff;
             margin: 50px auto;
             padding: 20px;
-            width: 80%;
-            max-width: 800px;
+            width: 90%;
+
+         
         }
         
         .content-switcher {
@@ -82,11 +90,49 @@
             padding: 5px;
             width: 100%;
         }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        #table-container {
+  margin-top: 20px;
+  max-height: 200px; /* Adjust the maximum height as needed */
+  overflow-y: scroll;
+}
+
+.scrollable-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.scrollable-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #f1f1f1;
+}
+
+.scrollable-table thead th {
+  padding: 8px;
+  text-align: left;
+}
+
+.scrollable-table tbody td {
+  padding: 8px;
+  text-align: left;
+}
+
     </style>
 </head>
 <body>
-    <h1 id="asad">Selenium Razor Page</h1>
-    <button id="openButton" onclick="openWhatsApp()">Open WhatsApp</button>
+   
+ 
     <section>
         <div class="content-switcher">
             <button class="active" onclick="switchContent(0)">Send Messages</button>
@@ -108,17 +154,18 @@
                        
                             <label id="result-label"></label>
                   
-                        <label id="result-labe4l">@Model.error1</label>
                     
 
 
-                  
+                      
 
                     <div>
                         <label for="message-text">Message Text:</label>
-                        <textarea id="message-text" style="background-color: #009A88;width:100%; height:100px; border: 1px solid #37B54A; border-radius: 5px;"></textarea>
-
+                        <textarea id="message-text" style="resize: none; background-color:  #D0F0C0;width:100%; height:35vh; border: 1px solid #37B54A; border-radius: 5px;"></textarea>
+                     
+                        <label id="result-label1"></label>
                     </div>
+                   
                     <div>
                         <label for="select-template" margin-right:5px; style="width: 48%;">Select Template:</label>
                         <select id="select-template" style="width: 48%;">
@@ -135,25 +182,14 @@
                         <div style="display: flex; align-items: center; margin-bottom: 5px; margin-top:15px;">
                             <span style="margin: 0 10px; font-weight: bold;">Sending Interval</span>
                             <button onclick="decrementTime('min')" style="background-color: #009A88; border: none; color: white; cursor: pointer;">-</button>
-                            <input type="text" id="min-time-limit" placeholder="Min Time" style="background-color: #009A88; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                            <input type="text" id="min-time-limit" placeholder="Min Time" style="background-color:  #D0F0C0; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
                             <button onclick="incrementTime('min')" style="background-color: #009A88; border: none; color: white; cursor: pointer;">+</button>
 
                             <button onclick="decrementTime('max')" style="background-color: #009A88; margin-left: 5px; border: none; color: white; cursor: pointer;">-</button>
-                            <input type="text" id="max-time-limit" placeholder="Max Time" style="background-color: #009A88; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                            <input type="text" id="max-time-limit" placeholder="Max Time" style="background-color:  #D0F0C0; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
                             <button onclick="incrementTime('max')" style="background-color: #009A88; border: none; color: white; cursor: pointer;">+</button>
-                            <script>
-                                window.openWhatsApp = async function() {
-                                  const { Builder } = require("selenium-webdriver");
-                                  require("chromedriver");
-                                  
-                                  const driver = await new Builder().forBrowser("chrome").build();
-                                  await driver.get("https://web.whatsapp.com");
-                                  setInterval(function() {
-                                    driver.quit();
-                                  }, 1000);
-                                }
-                                </script>
-                                <button id="validate-button1"  onclick="openWhatsApp()" style="background-color: #009A88; margin-left: 205px; border: 1px solid #37B54A; border-radius: 5px; color: black; cursor: pointer; padding: 5px 35px; font-size: 16px;">Send</button>
+                            
+                                <button id="validate-button1"  onclick="openWhatsApp1()" style="background-color:  #D0F0C0; margin-left: 205px; border: 1px solid #37B54A; border-radius: 5px; color: black; cursor: pointer; padding: 5px 35px; font-size: 16px;">Send</button>
                          
                         </div>
                         <div style="margin-top: 10px; font-size: 12px; text-align: center;">
@@ -169,53 +205,231 @@
             <div class="content-section">
                 <div class="pro-upgrade-section">
                     <h2>This is pro feature buy Pro Account now!</h2>
+                    <p style="color:red; font-size: 100px;"  id="hamzaali"></p>
                 </div>
+
                 <div class="whatsapp-numbers-section">
-                    <label for="whatsapp-numbers">Whatsapp Numbers:</label>
-                    <input type="text" id="whatsapp-numbers" placeholder="+923117334180, +923417412465">
-                    <label for="whatsapp-numbers" style="font-weight: normal; font-size: 12px;">Country code in front, separate using comma, like: +8613135587131,+8619197646821</label>
-                    <label for="whatsapp-numbers">Send to Group members 1 by 1</label>
-                    <select id="select-template" style="width: 100%;">
-                        <option value="option1">Select Joined Groups</option>
-                        <option value="option2">Random Text 2</option>
-                        <option value="option3">Random Text 3</option>
-                        <option value="option4">Random Text 4</option>
-                        <option value="option5">Random Text 5</option>
-                    </select>                    <div class="whatsapp-numbers-section">
+                  <label for="whatsapp-numbers">Whatsapp Numbers:</label>
+                  <div class="input-container">
+                    <input type="text" id="whatsapp-numbers1" placeholder="+923117334180, +923417412465">
+                    <button id="import-button" onclick="importNumbers()">
+                      <i class="fa fa-upload"></i> Import
+                    </button>
+                    <input type="file" id="file-input" accept=".txt" style="display: none;">
+                  </div>
+                  <label id="result-label3"></label>
+
+                  <label for="whatsapp-numbers" style="font-weight: normal; font-size: 12px;">
+                    Country code in front, separate using a comma, like: +8613135587131,+8619197646821
+                  </label>
+                                     
+                                 <div class="whatsapp-numbers-section">
                         <label for="whatsapp-numbers">WhatsApp Number's Excel</label>
                         <div class="button-container">
                             <a onclick="downloadExcelTemplate()" download class="whatsapp-button">Download Excel Template</a>
-                            <label for="excel-upload" class="whatsapp-button">Upload Excel<input type="file" id="excel-upload" accept=".xlsx, .xls" onchange="handleFileUpload(event)" style="display: none;"></label>
-                        </div>
+                            <input type="file" id="excel-upload" accept=".xlsx, .xls" onchange="handleFileUpload3(event)" style="display: none;">
+                            <label for="excel-upload" class="whatsapp-button">Upload Excel</label>
+                            
+                                         </div>
+<script>
+  function handleFileUpload3(event) {
+  var file = event.target.files[0];
+  var reader = new FileReader();
 
-                        <div id="uploaded-file-section">
-                            <span id="uploaded-file"></span>
-                            <button id="delete-file" onclick="deleteUploadedFile()" style="display: none;"><i class="fas fa-trash"></i></button>
-                            <br>
-                            <label for="error-label" id="error-label"></label>
+  reader.onload = function(e) {
+    var data = new Uint8Array(e.target.result);
+    var workbook = XLSX.read(data, { type: 'array' });
+
+    var sheetName = workbook.SheetNames[0];
+    var worksheet = workbook.Sheets[sheetName];
+
+    // Convert worksheet to JSON
+    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+    // Call function to populate the HTML table
+    populateTable1(jsonData);
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+function populateTable1(data) {
+  var table = document.getElementById('newtable');
+  
+  var tableHeadingsRow = document.getElementById('tableheadings');
+  tableHeadingsRow.innerHTML = '';
+  
+  // Clear previous table data
+  
+
+  // Create table headings
+  for (var i = 0; i < data[0].length; i++) {
+    var th = document.createElement('th');
+    th.textContent = data[0][i];
+    tableHeadingsRow.appendChild(th);
+  }
+  
+  var tableBody = table.getElementsByTagName('tbody')[0];
+
+  // Populate table body
+  for (var i = 1; i < data.length; i++) {
+    var rowData = data[i];
+    if (rowData.length > 0) { // Only create a row if it has data
+      var row = document.createElement('tr');
+      for (var j = 0; j < rowData.length; j++) {
+        var cell = document.createElement('td');
+        cell.textContent = rowData[j];
+        row.appendChild(cell);
+      }
+      tableBody.appendChild(row);
+    }
+  }
+
+  // Update the paragraph tag with the row count
+  var rowCount = tableBody.getElementsByTagName('tr').length;
+  var paragraph = document.getElementById('hamzaali');
+  paragraph.textContent = "Number of rows: " + rowCount;
+}
+
+</script>
+                      
+                        <div id="table-container">
+                         <table id="newtable">
+                          <tr id="tableheadings"> 
+                            <!--dynamicaaly generated table headings from excel-->
+
+                          </tr>
+                          <tbody>
+                                                        <!--dynamicaaly generated table body from excel-->
+
+                          </tbody>
+                         </table>
+
                         </div>
+                        <div id="newcontainer"></div>
+                        
+                        <script>
+                         function extractTableData() {
+  var tableContainer = document.getElementById('table-container');
+  var rows = tableContainer.getElementsByTagName('tr');
+  var tableData = [];
+
+  // Extract table data
+  for (var i = 0; i < rows.length; i++) {
+    var rowData = [];
+    var cells = rows[i].getElementsByTagName('td');
+
+    for (var j = 0; j < cells.length; j++) {
+      rowData.push(cells[j].textContent);
+    }
+
+    tableData.push(rowData);
+  }
+
+  var newContainer = document.getElementById('newcontainer');
+  var newTable = document.createElement('table');
+
+  // Create table headers
+  var headerRow = document.createElement('tr');
+  var headerCells = rows[0].getElementsByTagName('th');
+
+  for (var j = 0; j < headerCells.length; j++) {
+    var headerCell = document.createElement('th');
+    headerCell.textContent = headerCells[j].textContent;
+    headerRow.appendChild(headerCell);
+  }
+
+  newTable.appendChild(headerRow);
+
+  // Create table rows
+  for (var i = 0; i < tableData.length; i++) {
+    var newRow = document.createElement('tr');
+
+    for (var j = 0; j < tableData[i].length; j++) {
+      var newCell = document.createElement('td');
+      newCell.textContent = tableData[i][j];
+      newRow.appendChild(newCell);
+    }
+
+    newTable.appendChild(newRow);
+  }
+
+  newContainer.appendChild(newTable);
+}
+
+                        </script>
+                        
+                          
+                        
                     </div>
 
                     <div class="button-group">
-                        <button class="round-button red-button">First Name</button>
-                        <button class="round-button blue-button">Last Name</button>
-                        <button class="round-button green-button">Email</button>
-                        <button class="round-button orange-button">Roll Number</button>
-                        <button class="round-button purple-button">Status</button>
-                        <button class="round-button yellow-button">Fees</button>
-                        <button class="round-button teal-button">Due Date</button>
-                        <button class="round-button pink-button">Expiry</button>
+                       
                     </div>
-                 
-                    <div class="button-group">
-                        <button class="round-button gray-button">Last Day</button>
-                        <button class="round-button brown-button">Keyword</button>
-                    </div>
+                
+                 <style>
+              
+#textareas {
+}
+
+                 </style>
                     <div>
                         <label for="message-text">Message Text:</label>
-                        <textarea id="message-text1" style="background-color: lightgreen;width:100%; height:100px; border: 1px solid #37B54A; border-radius: 5px;"></textarea>
-                    </div>
+                        <textarea id="message-text1" style="resize: none; background-color: #D0F0C0;width:100%; height:35vh; border: 1px solid #37B54A; border-radius: 5px;"></textarea>
+                        <label id="result-label2"></label>
 
+                    </div>
+<script>
+function extractColumnData1() {
+  var textarea = document.getElementById('message-text1');
+  var text = textarea.value;
+  var tableContainer = document.getElementById('table-container');
+  var headerCells = tableContainer.getElementsByTagName('tr');
+
+  var hamzaTextarea = document.getElementById('hamza');
+  hamzaTextarea.value = headerCells.length; // Clear existing content
+
+  var regex = /{([^}]+)}/g; // Regular expression to match text inside curly brackets
+
+  var matches = text.match(regex); // Extract text inside curly brackets
+  if (!matches) return; // No matches found
+
+  var tableContainer = document.getElementById('table-container');
+  var headerCells = tableContainer.getElementsByTagName('th');
+
+  var hamzaTextarea = document.getElementById('hamza');
+
+  for (var i = 0; i < matches.length; i++) {
+    var columnName = matches[i].substring(1, matches[i].length - 1); // Remove curly brackets
+    var columnData = [];
+
+    for (var j = 0; j < headerCells.length; j++) {
+      if (headerCells[j].textContent === columnName) {
+        var rows = tableContainer.getElementsByTagName('tr');
+
+        for (var k = 1; k < rows.length; k++) { // Start from index 1 to skip header row
+          var cells = rows[k].getElementsByTagName('td');
+          var cellValue = '';
+
+          if (cells[j] && cells[j].textContent.trim() !== '') {
+            cellValue = (k) + ': ' + cells[j].textContent.trim(); // Append entry number to cell value
+          } else {
+            cellValue = 'NILL'; // Add "NILL" for empty cells
+          }
+
+          columnData.push(cellValue);
+        }
+
+        break;
+      }
+    }
+
+    // Append column header and data to the hamza textarea
+  //  hamzaTextarea.value += columnName + '\n' + columnData.join('\n') + '\n';
+  }
+}
+
+</script>
 
                     <div>
                         <label for="select-template" margin-right:5px; style="width: 48%;">Select Template:</label>
@@ -230,19 +444,19 @@
                         <button onclick="saveTemplate()" class="custom-button">Save As A Template</button>
                     </div>
                     <div>
-                        <div style="display: flex; align-items: center; margin-bottom: 5px; margin-top:15px;">
-                            <span style="margin: 0 10px; font-weight: bold;">Sending Interval</span>
-                            <button onclick="decrementTime('min')" style="background-color: lightgreen; border: none; color: white; cursor: pointer;">-</button>
-                            <input type="text" id="min-time-limit" placeholder="Min Time" style="background-color: lightgreen; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
-                            <button onclick="incrementTime('min')" style="background-color: lightgreen; border: none; color: white; cursor: pointer;">+</button>
-
-                            <button onclick="decrementTime('max')" style="background-color: lightgreen; margin-left: 5px; border: none; color: white; cursor: pointer;">-</button>
-                            <input type="text" id="max-time-limit" placeholder="Max Time" style="background-color: lightgreen; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
-                            <button onclick="incrementTime('max')" style="background-color: lightgreen; border: none; color: white; cursor: pointer;">+</button>
-
-                            <button style="background-color: lightgreen; margin-left: 205px; border: 1px solid #37B54A; border-radius: 5px; color: black; cursor: pointer; padding: 5px 35px; font-size: 16px;">Send</button>
-
-                        </div>
+                      <div style="display: flex; align-items: center; margin-bottom: 5px; margin-top:15px;">
+                        <span style="margin: 0 10px; font-weight: bold;">Sending Interval</span>
+                        <button onclick="decrementMinTime1()" style="background-color: #009A88; border: none; color: white; cursor: pointer;">-</button>
+                        <input type="text" id="min-time-limit1" placeholder="Min Time" style="background-color: #D0F0C0; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                        <button onclick="incrementMinTime1()" style="background-color: #009A88; border: none; color: white; cursor: pointer;">+</button>
+                      
+                        <button onclick="decrementMaxTime1()" style="background-color: #009A88; margin-left: 5px; border: none; color: white; cursor: pointer;">-</button>
+                        <input type="text" id="max-time-limit1" placeholder="Max Time" style="background-color: #D0F0C0; width: 90px; border: 1px solid #37B54A; border-radius: 5px; text-align: center;">
+                        <button onclick="incrementMaxTime1()" style="background-color: #009A88; border: none; color: white; cursor: pointer;">+</button>
+                      
+                        <button id="myButton" onclick="openWhatsApp2()" style="background-color: lightgreen; margin-left: 205px; border: 1px solid #37B54A; border-radius: 5px; color: black; cursor: pointer; padding: 5px 35px; font-size: 16px;">Send</button>
+                      </div>
+                      
                         <div style="margin-top: 10px; font-size: 12px; text-align: center;">
                             Messages will be sent randomly from this interval.
                         </div>
@@ -440,18 +654,20 @@
                 <h2>Separate Whatsapp Numbers from Contacts List</h2>
                 </div>
                 <div class="button-container">
-                <label for="excel-upload" class="whatsapp-button" id="wa1">Import Numbers From Excel<input type="file" id="excel-upload-excel" accept=".xlsx, .xls" onchange="handleExcelFileUpload(event)" style="display: none; width: 45%;"></label>
-
-                <label for="text-upload" class="whatsapp-button" id="wa2">Import Numbers From Text File<input type="file" id="text-upload" accept=".txt" onchange="handleTextFileUpload(event)" style="display: none; width: 45%;"></label>
-
-                </div>
-
-                <div id="uploaded-file-section">
-                    <span id="uploaded-file"></span>
-                    <button id="delete-file" onclick="deleteUploadedFile()" style="display: none;"><i class="fas fa-trash"></i></button>
+                  
+                    <span id="uploaded-file" style="margin-right: 10px;"></span>
+                    <button id="delete-file" onclick="deleteUploadedFile()" style="display: none; background: none; border: none; cursor: pointer;"><i class="fas fa-trash" style="color: red;"></i></button>
                     <br>
                     <label for="error-label" id="error-label"></label>
+                  
+                    <label for="text-upload" class="whatsapp-button" id="wa2">
+                      Import Numbers From Text File
+                      <input type="file" id="text-upload" accept=".txt" onchange="handleTextFileUpload(event)" style="display: none; width: 45%;">
+                    </label>
+                
                 </div>
+
+               
             <div class="number-generator-section">
                 <label for="number-generator">Number Generator:</label>
                 <div class="row">
@@ -473,13 +689,13 @@
 
                 <div class="row whatsapp-numbers-section">
                     <div class="col-md-6">
-                        <label for="whatsapp-numbers">WhatsApp Numbers:</label>
-                    <textarea id="input-text" name="input-text" ; rows="10" class="form-control"></textarea>
+                        <label for="whatsapp-numbers">Numbers:</label>
+                    <textarea id="input-text" name="input-text" ; rows="10" class="form-control" style="height:60vh; resize: none; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);"></textarea>
                     </div>
                     <div class="col-md-6">
-                        <label for="output-text">Output:</label>
+                        <label for="output-text">Whatsapp Numbers:</label>
                     
-                        <textarea id="output-text" rows="10" class="form-control" readonly></textarea>
+                        <textarea id="output-text" rows="10" class="form-control" readonly style=" height:60vh; resize: none; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);"></textarea>
                         <button class="btn btn-primary copy-button">Copy</button>
 
                     </div>
@@ -487,7 +703,7 @@
 
                 <div class="row">
                     <div class="col-md-6 offset-md-3 text-center">
-                        <button  onclick="openWhatsApp()" id="validate-button" class="btn btn-success validate-button" style="margin-top: 10px;">Validate Numbers</button>
+                        <button   id="validate-button" class="btn btn-success validate-button" style="margin-top: 10px;">Validate Numbers</button>
                     </div>
                 </div>
 
@@ -506,13 +722,226 @@
                 </div>
             </div>
          
-         
+            <div id="phoneTable">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Total Numbers</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Rows will be dynamically added here -->
+                  </tbody>
+                </table>
+              </div>
+           
+            
         </div>
         <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-
+      
+          
     </section>
-
+   
+    <div class="container">
+        <div class="loader">
+          <div class="close-icon" onclick="closeLoader()"><i class="fas fa-times"></i></div>
+          <h2>SENDING...</h2>
+          <div class="progress">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <p class="message-info" id="messageSent">0</p>
+            <p class="message-info">/</p>
+            <p class="message-info" id="totalMessage"></p>
+          </div>
+          <p style="color: #37B54A;">Message sent to +923117334180</p>
+          <button class="download-button" onclick="exportToExcel()">
+            <i class="fas fa-file-excel excel-icon"></i>
+            Download as Excel
+          </button>
+        </div>
+      </div>
     <style>
+      .input-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-container input[type="text"] {
+  flex-grow: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  width: 80%;
+}
+
+.input-container button {
+  padding: 6px 16px;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 100%;
+}
+
+.input-container button:hover {
+  background-color: #008000;
+}
+
+        #result-label1,#result-label,#result-label2,#result-label3{
+color:red;
+        }
+        #phoneTable{
+            display: none;
+        }
+.message-info {
+  display: inline;
+  margin-right: 10px;
+}
+
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 365px;
+  overflow: auto;
+}
+
+
+    .download-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      background-color: #217346;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .download-button:hover {
+      background-color: #176733;
+    }
+
+    .excel-icon {
+      margin-right: 10px;
+    }
+.loader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  width: 350px; /* Increase the width to fit the content */
+  max-height: 235px; /* Increase the max-height to fit the content */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  
+}
+.loader h2{
+    font-family: "Pacifico", cursive;
+  font-size: 24px;
+}
+.loader span {
+    
+  display: block;
+  width: 25px;
+  height: 25px;
+  background: rgb(184, 42, 42); /* Update the background color to transparent */
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.loader span:nth-child(2) {
+  background: #f07e6e;
+}
+
+.loader span:nth-child(3) {
+  background: #84cdfa;
+}
+
+
+.loader span:nth-child(4) {
+  background: #5ad1cd;
+}
+
+.loader span:not(:last-child) {
+  animation: animate 1.5s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(30px);
+  }
+}
+.progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ height:50px;
+ 
+  background-color: transparent;
+}
+.loader span:last-child {
+  animation: jump 1.5s ease-in-out infinite;
+}
+
+@keyframes jump {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(10px, -10px);
+  }
+  20% {
+    transform: translate(20px, 10px);
+  }
+  30% {
+    transform: translate(30px, -50px);
+  }
+  70% {
+    transform: translate(-150px, -50px);
+  }
+  80% {
+    transform: translate(-140px, 10px);
+  }
+  90% {
+    transform: translate(-130px, -10px);
+  }
+  100% {
+    transform: translate(-120px, 0);
+  }
+}
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+
+
         #wa1{
             width:100%;
         }
@@ -577,6 +1006,7 @@
         #message-output {
             margin-top: 10px;
             height: 100px;
+            
         }
 
         #save-template-button {
@@ -606,6 +1036,8 @@
             .number-generator-section input[type="text"],
             .number-generator-section input[type="number"] {
                 width: 100%;
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+
             }
 
             .number-generator-section img#country-flag {
@@ -704,59 +1136,7 @@
         }
 
 
-        .red-button {
-            background-color: red;
-            color: white;
-        }
-
-        .blue-button {
-            background-color: blue;
-            color: white;
-        }
-
-        .green-button {
-            background-color: green;
-            color: white;
-        }
-
-        .orange-button {
-            background-color: orange;
-            color: white;
-        }
-
-        .generate-button {
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .purple-button {
-            background-color: purple;
-            color: white;
-        }
-
-        .yellow-button {
-            background-color: yellow;
-            color: black;
-        }
-
-        .teal-button {
-            background-color: teal;
-            color: white;
-        }
-
-        .pink-button {
-            background-color: pink;
-            color: white;
-        }
-
-        .gray-button {
-            background-color: gray;
-            color: white;
-        }
-
-        .brown-button {
-            background-color: brown;
-            color: white;
-        }
+     
 
         #delete-file {
             background-color: transparent;
@@ -849,9 +1229,9 @@
             color: white;
         }
 
-        #result-label {
+        #result-label,#result-label1 {
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .green {
@@ -865,9 +1245,329 @@
 </style>
 
     <script>
+      /*BELOW IS CODE FOR PAGE IMPORTING NUMBER FROM TEXT FILE TO INPUT BOX*/
+      function importNumbers() {
+  const fileInput = document.getElementById('file-input');
+  fileInput.addEventListener('change', handleFileSelect);
+  fileInput.click();
+}
+
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const numbers = e.target.result;
+    const numbersArray = numbers.split('\n');
+    const formattedNumbers = numbersArray.map(number => number.trim()).join(',');
+
+    const inputField = document.getElementById('whatsapp-numbers1');
+    inputField.value = formattedNumbers;
+  };
+
+  reader.readAsText(file);
+}
+function openWhatsApp2() {
+  // Get the reference to the table
+var table = document.getElementById("tablemain");
+
+// Get the number of rows in the table
+var rowCount = table.rows.length;
+document.getElementById('message-text1').value=rowCount;
+
+// Output the row count
+console.log("Number of rows: " + rowCount);
+
+  extractColumnData1();
+  // Get a reference to the div element
+var divElement = document.getElementById("textareas");
+
+// Get all the textarea elements inside the div
+var textareas = divElement.querySelectorAll("textarea");
+
+// Loop through the textareas and fetch their values
+for (var i = 0; i < textareas.length; i++) {
+  var textareaValue = textareas[i].value;
+  document.getElementById('message-text1').value=textareaValue;
+}
+
+var texting=document.getElementById('textareas').value;
+      var inputText = document.getElementById('whatsapp-numbers1').value;
+      var message=document.getElementById('message-text1').value;
+
+      if(inputText=='')
+      {
+        document.getElementById('result-label3').innerText="Please Insert Whatsapp Numbers First";
+      }
+
+      if(message=='')
+      {
+        if(inputText!='')
+        {
+            document.getElementById('result-label3').innerText="";
+
+        }
+        document.getElementById('result-label2').innerText="Please Enter Text Message First";
+
+      }
+      else{
+        if(message!='' && inputText!='')
+        {
+            document.getElementById('result-label3').innerText="";
+            document.getElementById('result-label2').innerText="";
+
+        
+        }
+        var lowerlimit=document.getElementById('min-time-limit1').value;
+      var upperlimit=document.getElementById('max-time-limit1').value;
+      var text=encodeURIComponent(inputText);
+    var text1=encodeURIComponent(message);
+    var text2=encodeURIComponent(lowerlimit);
+    var text3=encodeURIComponent(upperlimit);
+      // Send a GET request with the input text as a query parameter
+      fetch(`http://localhost:3000/open-whatsapp1?text=${text}&text1=${text1}&text2=${text2}&text3=${text3}`)
+        .then(response => response.text())
+        .then(message => {
+          console.log(message);
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+        document.querySelector('.container').style.display = 'block';
+
+      }
+    
+    }
+
+        // Get the reference to the buttons and the textarea
+const buttonGroup = document.querySelector('.button-group');
+const textarea = document.getElementById('message-text1');
+
+// Add event listener to the button group
+buttonGroup.addEventListener('click', function(event) {
+  // Check if the clicked element is a button
+  if (event.target.tagName === 'BUTTON') {
+    // Get the text content of the clicked button
+    const buttonText = event.target.textContent;
+    
+    // Append the button text with curly brackets to the textarea
+    textarea.value += `{${buttonText}}`;
+  }
+});
+
+function handleFileUpload1(event) {
+  var file = event.target.files[0];
+  var reader = new FileReader();
+
+  reader.onload = function (e) {
+    var data = new Uint8Array(e.target.result);
+    var workbook = XLSX.read(data, { type: 'array' });
+    var sheetName = workbook.SheetNames[0];
+    var worksheet = workbook.Sheets[sheetName];
+    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+    var buttonGroup = document.getElementsByClassName('button-group')[0];
+    buttonGroup.innerHTML = '';
+
+    for (var i = 0; i < jsonData[0].length; i++) {
+      var button = createHeaderButton(jsonData[0][i]);
+      buttonGroup.appendChild(button);
+    }
+
+    var tableContainer = document.getElementById('table-container');
+    tableContainer.innerHTML = '';
+
+    var table = document.createElement('table');
+    table.id = 'tablemain';
+    table.className = 'excel-table';
+
+    // Add table headers
+    var thead = document.createElement('thead');
+    var headerRow = document.createElement('tr');
+    for (var i = 0; i < jsonData[0].length; i++) {
+      var th = document.createElement('th');
+      th.textContent = jsonData[0][i];
+      headerRow.appendChild(th);
+    }
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Add table rows
+    var tbody = document.createElement('tbody');
+    for (var i = 1; i < jsonData.length; i++) {
+      var row = document.createElement('tr');
+      for (var j = 0; j < jsonData[i].length; j++) {
+        var cell = document.createElement('td');
+        cell.textContent = jsonData[i][j];
+        row.appendChild(cell);
+      }
+      tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+
+    tableContainer.appendChild(table);
+
+    var rowRowCountElement = document.getElementById('rowrow');
+    var numRows = jsonData.length - 1; // Exclude header row
+    rowRowCountElement.textContent = 'Number of rows: ' + numRows;
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+function createHeaderButton(text) {
+    var button = document.createElement('button');
+    button.className = 'round-button';
+    button.textContent = text;
+
+    // Add color class based on the text (you can customize this logic)
+    switch (text.toLowerCase()) {
+        case 'first name':
+            button.classList.add('red-button');
+            break;
+        case 'last name':
+            button.classList.add('blue-button');
+            break;
+        case 'email':
+            button.classList.add('green-button');
+            break;
+        case 'roll number':
+            button.classList.add('orange-button');
+            break;
+        case 'status':
+            button.classList.add('purple-button');
+            break;
+        case 'fees':
+            button.classList.add('yellow-button');
+            break;
+        case 'due date':
+            button.classList.add('teal-button');
+            break;
+        case 'expiry':
+            button.classList.add('pink-button');
+            break;
+        default:
+            button.classList.add('default-button');
+            break;
+    }
+  
+    return button;
+}
+
+function downloadExcelTemplate() {
+    // Implement the logic to download the Excel template here
+}
+
+
+  function exportToExcel() {
+      const filename = "phone_numbers.xlsx";
+      const table = document.getElementById("phoneTable");
+      const rows = table.getElementsByTagName("tr");
+      const data = [];
+
+      // Extract table heading
+      const tableHeadingRow = table.querySelector("thead tr");
+      const tableHeading = Array.from(tableHeadingRow.children).map(th => th.innerText);
+      data.push(tableHeading);
+
+      // Extract table data
+      for (let row of rows) {
+        const rowData = [];
+        const columns = row.getElementsByTagName("td");
+        
+        for (let column of columns) {
+          rowData.push(column.innerText);
+        }
+
+        data.push(rowData);
+      }
+
+      // Add extra line
+      data.push(["This Website is powered by airobots.com"]);
+
+      const worksheet = XLSX.utils.aoa_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Phone Numbers");
+      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+      const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      saveAs(blob, filename);
+    }
+
+    // Polyfill for saveAs function in older browsers
+    function saveAs(blob, filename) {
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+          document.querySelector('.container').style.display = 'none';
+
+     function closeLoader() {
+
+  document.querySelector('.container').style.display = 'none';
+}
+
+
+const socket = new WebSocket('ws://localhost:8080'); // Use the same port as in the server
+const currentText = '';
+
+socket.addEventListener('message', (event) => {
+  const data = JSON.parse(event.data);
+  const text = data.text;
+  const outputTextArea = document.getElementById('output-text');
+  const currentText = outputTextArea.textContent.trim(); // Trim leading/trailing spaces
+
+  if (text) {
+    const newText = currentText ? currentText + '\n' + text : text;
+    outputTextArea.textContent = newText;
+  }
+
+});
+const outputTextArea = document.getElementById('totalMessage');
+const messageSentElement = document.getElementById('messageSent');
+
+socket.addEventListener('message', (event) => {
+  const data = JSON.parse(event.data);
+  const tableBody = document.querySelector("#phoneTable tbody");
+
+  if (data.totalNumbers !== undefined) {
+    const totalNumbers = data.totalNumbers;
+    outputTextArea.innerText = totalNumbers;
+  } else if (data.inc !== undefined) {
+    const increment = data.inc;
+    const oldValue = parseInt(messageSentElement.textContent);
+    const newValue = oldValue + 1;
+    messageSentElement.textContent = newValue;
+    const totalNumbersRow = document.createElement("tr");
+  
+  // Create a cell for the total numbers
+  const totalNumbersCell = document.createElement("td");
+  totalNumbersCell.textContent = increment;
+  
+  // Create a cell for the status
+  const statusCell = document.createElement("td");
+  statusCell.textContent = "Sent";
+  
+  // Append the cells to the total numbers row
+  totalNumbersRow.appendChild(totalNumbersCell);
+  totalNumbersRow.appendChild(statusCell);
+  
+  // Append the total numbers row to the table body
+  tableBody.appendChild(totalNumbersRow);
+
+  }
+});
+
 
 function openWhatsApp() {
-      fetch("http://localhost:3000/open-whatsapp")
+      var inputText = document.getElementById('input-text').value;
+      
+      // Send a GET request with the input text as a query parameter
+      fetch(`http://localhost:3000/open-whatsapp?text=${encodeURIComponent(inputText)}`)
         .then(response => response.text())
         .then(message => {
           console.log(message);
@@ -876,10 +1576,61 @@ function openWhatsApp() {
           console.error("Error:", error);
         });
     }
+    function openWhatsApp1() {
+        console.log('Hello, World!');
 
-        // Add this function before the existing JavaScript code
-        // Add this code after the existing JavaScript code
-        // Call the function to populate country codes and flags
+        console.log('hamza');
+
+      var inputText = document.getElementById('whatsapp-numbers').value;
+      var message=document.getElementById('message-text').value;
+
+      if(inputText=='')
+      {
+        document.getElementById('result-label').innerText="Please Insert Whatsapp Numbers First";
+      }
+
+      if(message=='')
+      {
+        if(inputText!='')
+        {
+            document.getElementById('result-label').innerText="";
+
+        }
+        document.getElementById('result-label1').innerText="Please Enter Text Message First";
+
+      }
+      else{
+        if(message!='' && inputText!='')
+        {
+            document.getElementById('result-label').innerText="";
+            document.getElementById('result-label1').innerText="";
+
+        
+        }
+        var lowerlimit=document.getElementById('min-time-limit').value;
+      var upperlimit=document.getElementById('max-time-limit').value;
+      var text=encodeURIComponent(inputText);
+    var text1=encodeURIComponent(message);
+    var text2=encodeURIComponent(lowerlimit);
+    var text3=encodeURIComponent(upperlimit);
+      // Send a GET request with the input text as a query parameter
+      fetch(`http://localhost:3000/open-whatsapp1?text=${text}&text1=${text1}&text2=${text2}&text3=${text3}`)
+        .then(response => response.text())
+        .then(message => {
+          console.log(message);
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+        document.querySelector('.container').style.display = 'block';
+
+      }
+    
+    }
+   
+    document.getElementById('validate-button').addEventListener('click', openWhatsApp);
+
+
         populateCountryCodes();
         function populateCountryCodes() {
             const whatsappNumbersTextArea = document.getElementById('whatsapp-numbers');
@@ -951,23 +1702,9 @@ function openWhatsApp() {
         function downloadExcelTemplate() {
             window.location.href = "https://docs.google.com/spreadsheets/d/1QL_17-O0VQmt8Q5V8ouPqSQwmKojaDjm/export?format=xlsx";
         }
-        function handleExcelFileUpload(event) {
-            var file = event.target.files[0];
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                var data = new Uint8Array(e.target.result);
-                var workbook = XLSX.read(data, { type: 'array' });
-                var worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                var textArea = document.getElementById('input-text');
-                textArea.value = jsonData.join('\n');
-            };
-
-            reader.readAsArrayBuffer(file);
-        }
-
+   
         function handleTextFileUpload(event) {
+       
             var file = event.target.files[0];
             var reader = new FileReader();
 
@@ -978,6 +1715,16 @@ function openWhatsApp() {
             };
 
             reader.readAsText(file);
+            const fileInput = event.target;
+      const file1 = fileInput.files[0];
+
+      if (file1) {
+        const uploadedFileElement = document.getElementById('uploaded-file');
+        uploadedFileElement.textContent = file.name;
+
+        const deleteButton = document.getElementById('delete-file');
+        deleteButton.style.display = 'inline-block';
+      }
         }
         function deleteUploadedFile() {
             const fileInput = document.getElementById("excel-upload");
@@ -987,6 +1734,8 @@ function openWhatsApp() {
             fileInput.value = "";
             uploadedFile.textContent = "";
             deleteButton.style.display = "none";
+            var removetext=document.getElementById('input-text');
+            removetext.value="";
         }
 
     const buttons = document.querySelectorAll('.content-switcher button');
@@ -1035,6 +1784,48 @@ function incrementTime(type) {
   
   }
 }
+var minTime1 = 0;
+var maxTime1 = 5;
+
+updateMinTime1();
+updateMaxTime1();
+
+function updateMinTime1() {
+  var minInput = document.getElementById("min-time-limit1");
+  minInput.value = minTime1;
+}
+
+function updateMaxTime1() {
+  var maxInput = document.getElementById("max-time-limit1");
+  maxInput.value = maxTime1;
+}
+
+function decrementMinTime1() {
+  if (minTime1 > 0) {
+    minTime1--;
+    updateMinTime1();
+  }
+}
+
+function incrementMinTime1() {
+  if (minTime1 < maxTime1 - 1) {
+    minTime1++;
+    updateMinTime1();
+  }
+}
+
+function decrementMaxTime1() {
+  if (maxTime1 > minTime1 + 1) {
+    maxTime1--;
+    updateMaxTime1();
+  }
+}
+
+function incrementMaxTime1() {
+  maxTime1++;
+  updateMaxTime1();
+}
+
 
 function switchContent(index) {
   buttons.forEach(button => button.classList.remove('active'));
@@ -1043,34 +1834,7 @@ function switchContent(index) {
   contentSections.forEach(section => section.classList.remove('active'));
   contentSections[index].classList.add('active');
 }
-//Check numbers
-        function checkNumbers() {
-            document.getElementById("myForm").addEventListener("submit", function (event) {
-                event.preventDefault(); // Prevent form submission
-                //var input = document.getElementById("whatsapp-numbers").value;
-                //var numbers = input.split(",");
 
-                //var allValid = true;
-                //var errorMessage = "Numbers are in correct format";
-
-                //for (var i = 0; i < numbers.length; i++) {
-                //    var number = numbers[i].trim();
-
-                //    if (!number.startsWith("+") || !/^\+\d+$/.test(number)) {
-                //        allValid = false;
-                //        errorMessage = "Numbers are not in correct format";
-                //        break;
-                //    }
-                //}
-
-                //var resultLabel = document.getElementById("result-label");
-                //resultLabel.textContent = errorMessage;
-                //resultLabel.classList.remove("green", "red");
-                //resultLabel.classList.add(allValid ? "green" : "red");
-                document.getElementById("myForm").submit();
-            });
-          
-        }
         const button = document.getElementById("save-template-button");
         const driver = new WebDriver();
 
@@ -1078,26 +1842,6 @@ function switchContent(index) {
             driver.navigate().to("https://web.whatsapp.com");
         });
     </script>
-    @section Scripts {
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="/path/to/signalr.js"></script>
-        <script>
-            $(document).ready(function () {
-                var connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
-
-                connection.on("ReceiveUpdate", function (phoneNumber) {
-                    // Update the textarea with the received phoneNumber
-                    var outputTextArea = document.getElementById("output-text");
-                    outputTextArea.value += phoneNumber + "\n";
-                });
-
-                connection.start().then(function () {
-                    // Connection to SignalR hub is established
-                }).catch(function (err) {
-                    console.error(err.toString());
-                });
-            });
-        </script>
-    }
+ 
 </body>
 </html>
