@@ -1,3 +1,21 @@
-# Node.js
+# Directories
 node_modules/
+dist/
+
+# Files
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Dependency lock files
+yarn.lock
 package-lock.json
+
+# Build output
+build/
+dist/
