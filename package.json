@@ -19,7 +19,6 @@
     "node-fetch": "^2.6.6",
     "openai": "^3.3.0",
     "selenium-webdriver": "^4.10.0",
-    "socket.io": "^4.7.0",
     "ws": "^8.13.0",
     "xlsx": "^0.18.5",
     "xlsx-populate": "^1.21.0"
