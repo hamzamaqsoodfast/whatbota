@@ -22,75 +22,7 @@ wss.on('connection', (ws) => {
     console.log('Received:', message);
   });
 
-  // Send the array to the client
-  const arrayToSend = [1, 2, 3, 4, 5];
-  ws.send(JSON.stringify(arrayToSend));
-});
-// Define routes and middleware
-app.get('/open-whatsapp', async (req, res) => {
-  try {
-    const text = req.query.text; // Access the text query parameter sent from the client
-
-    const numbersArray = text.split('\n').map(number => number.trim());
-
-      // Send the array to the client
-    
-    const { Builder, By, Key, until } = require('selenium-webdriver');
-
-
-    // Create a new instance of the WebDriver
-    const driver = await new Builder().forBrowser('chrome').build();
-    const baseUrl = 'https://web.whatsapp.com';
-
-    for (const phoneNumber of numbersArray) {
-      const url = baseUrl + '/send?phone=' + phoneNumber;
-      await driver.get(url);
-    
-      const buttonWait = driver.wait(until.elementLocated(By.xpath("//*[@id=\"app\"]/div/span[2]/div/span/div/div/div/div/div/div[2]/div/button"), 200000));
-      const headerWait = driver.wait(until.elementLocated(By.xpath("//*[@id=\"main\"]/header/div[2]/div/div/span"), 200000));
-    
-      try {
-        let element = await Promise.race([buttonWait, headerWait]);
-        await element.click();
-        let value = await element.getText();
-    
-        if (value === "OK") {
-          console.log("Button clicked");
-          
-        } else {
-         
-    
-          const text = phoneNumber; // Access the text query parameter sent from the client
-          const dataToSend = { text }; // Wrap the text in an object or array
-    
-          // Send the data to the connected clients via WebSocket
-          wss.clients.forEach((client) => {
-            console.log("Sending phoneNumber:", phoneNumber);
-            client.send(JSON.stringify(dataToSend));
-          });
-      
-        }
-      } catch (NoSuchElementException) {
-        // Handle exception if both conditions fail
-        console.log("Neither button nor header found");
-      }
-      
-    
-      // Additional code for interacting with the WhatsApp window for each number
-    
-    }
-    // Do any other actions you want with WhatsApp web
-
-    // Close the WebDriver
-    await driver.quit();
-
-    // Send a success response
-    res.send('WhatsApp web opened successfully');
-  } catch (error) {
-    console.error(error);
-    // Send an error response
-    res.status(500).send('Error opening WhatsApp web');
-  }
+  
 });
 
 
